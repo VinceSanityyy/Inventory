@@ -23,7 +23,7 @@
                         <button data-toggle="modal" data-target="#exampleModal" class="btn btn-primary" style="float:right;">Add Product</button>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
+                        <table id="myTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Product ID</th>
@@ -32,6 +32,7 @@
                                     <th>Quantity</th>
                                     <th>Supplier</th>
                                     <th>Category</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,6 +43,19 @@
                                     <td>{{product.quantity}}</td>
                                     <td>{{product.supplier.supplier_name}}</td>
                                     <td>{{product.category}}</td>
+                                    <td>
+                                        <a href="#"  data-toggle="modal" data-target="#exampleModal">
+                                        <i class="fa fa-plus"></i>
+                                        </a>
+                                        &emsp;
+                                        <a href="#"  data-toggle="modal" data-target="#exampleModal">
+                                        <i class="fa fa-edit"></i>
+                                        </a>
+                                        &emsp;
+                                         <a href="#"  data-toggle="modal" data-target="#exampleModal">
+                                        <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -63,23 +77,23 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Product Name</label>
-                        <input v-model="product_name" type="text" class="form-control" id="product" placeholder="Product Name">
+                        <input v-model="product_name" required type="text" class="form-control" id="product" placeholder="Product Name">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Barcode</label>
-                        <input v-model="barcode" type="text" class="form-control" id="barcode" placeholder="Barcode">
+                        <input v-model="barcode" type="text" required class="form-control" id="barcode" placeholder="Barcode">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Price</label>
-                        <input v-model="price" type="text" class="form-control" id="price" placeholder="In Php">
+                        <input v-model="price" type="text" required class="form-control" id="price" placeholder="In Php">
                     </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Supplier</label>
-                        <v-select :options="suppliers" v-model="supplier" name="supplier"></v-select>
+                        <v-select :options="suppliers"  :required="!supplier" v-model="supplier" name="supplier"></v-select>
                     </div>
                      <div class="form-group">
                         <label for="exampleInputEmail1">Category</label>
-                        <v-select :options="categories" v-model="category"></v-select>
+                        <v-select :options="categories"  :required="!category" v-model="category"></v-select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -101,6 +115,7 @@ import 'vue-select/dist/vue-select.css'
     export default {
         data(){
             return{
+                editMode: false,
                 suppliers:[],
                 products:[],
                 product_name:'',
@@ -109,7 +124,8 @@ import 'vue-select/dist/vue-select.css'
                 barcode:'',
                 categories:['Phone','Laptop','Computers','Appliances'],
                 category:'',
-                price:''
+                price:'',
+                errorInputs:[]
             }
         },
         methods:{
@@ -117,6 +133,7 @@ import 'vue-select/dist/vue-select.css'
                 axios.get('/getSuppliersCombo')
                     .then((res)=>{
                         this.suppliers = res.data
+                        this.myTable()
                     }).catch((err)=>{
                         console.log(err)
                     })
@@ -129,10 +146,13 @@ import 'vue-select/dist/vue-select.css'
                     category: this.category,
                     barcode: this.barcode,
                     price: this.price
-                }).then(()=>{
+                }).then((res)=>{
+                    this.clearValues()
                     console.log(this.supplier.id)
                     $('#exampleModal').modal('hide')
                     toastr.success('Product Added!')
+                }).catch((res)=>{
+                    toastr.error(res.message+' Check your Inputs')
                 })
             },
             getProducts(){
@@ -142,6 +162,19 @@ import 'vue-select/dist/vue-select.css'
                     }).catch((err)=>{
                         console.log(err)
                     })
+            },
+            myTable(){
+               $(document).ready( function () {
+                     $('#myTable').DataTable();
+                  });
+            },
+            clearValues(){
+                this.product_name=''
+                this.supplier=''
+                this.category= ''
+                this.barcode=''
+                this.quantity=''
+                this.price=''
             }
         },
         mounted() {

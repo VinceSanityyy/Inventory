@@ -48,7 +48,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = new Product;
-          $this->validate($request, [
+       
+        $validator = \Validator::make($request->all(), [
             'product_name' => 'required',
             'barcode' => 'required|unique:products',
             'price'=> 'required',
@@ -56,14 +57,24 @@ class ProductController extends Controller
             'supplier' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            $errors = json_decode($validator->errors());
+            return response()->json([
+                'success' => false,
+                'message' => $errors
+            ],422);
+            
+        } else {
+            $product->product_name = $request->product_name;
+            $product->price = $request->price;
+            $product->quantity = 0;
+            $product->category = $request->category;
+            $product->supplier_id = $request->supplier;
+            dd($request->all());
+            $product->save();
+        }
 
-        $product->product_name = $request->product_name;
-        $product->price = $request->price;
-        $product->quantity = 0;
-        $product->category = $request->category;
-        $product->supplier_id = $request->supplier;
-        dd($request->all());
-        $product->save();
+      
     }
 
     /**

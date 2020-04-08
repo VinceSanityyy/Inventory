@@ -2094,6 +2094,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
 
@@ -2102,6 +2116,7 @@ Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
     var _ref;
 
     return _ref = {
+      editMode: false,
       suppliers: [],
       products: [],
       product_name: '',
@@ -2109,7 +2124,7 @@ Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
       category: '',
       barcode: '',
       categories: ['Phone', 'Laptop', 'Computers', 'Appliances']
-    }, _defineProperty(_ref, "category", ''), _defineProperty(_ref, "price", ''), _ref;
+    }, _defineProperty(_ref, "category", ''), _defineProperty(_ref, "price", ''), _defineProperty(_ref, "errorInputs", []), _ref;
   },
   methods: {
     getSuppliers: function getSuppliers() {
@@ -2117,6 +2132,8 @@ Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
 
       axios.get('/getSuppliersCombo').then(function (res) {
         _this.suppliers = res.data;
+
+        _this.myTable();
       })["catch"](function (err) {
         console.log(err);
       });
@@ -2131,10 +2148,14 @@ Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
         category: this.category,
         barcode: this.barcode,
         price: this.price
-      }).then(function () {
+      }).then(function (res) {
+        _this2.clearValues();
+
         console.log(_this2.supplier.id);
         $('#exampleModal').modal('hide');
         toastr.success('Product Added!');
+      })["catch"](function (res) {
+        toastr.error(res.message + ' Check your Inputs');
       });
     },
     getProducts: function getProducts() {
@@ -2145,6 +2166,19 @@ Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
       })["catch"](function (err) {
         console.log(err);
       });
+    },
+    myTable: function myTable() {
+      $(document).ready(function () {
+        $('#myTable').DataTable();
+      });
+    },
+    clearValues: function clearValues() {
+      this.product_name = '';
+      this.supplier = '';
+      this.category = '';
+      this.barcode = '';
+      this.quantity = '';
+      this.price = '';
     }
   },
   mounted: function mounted() {
@@ -54006,29 +54040,40 @@ var render = function() {
           _vm._m(1),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _c("table", { staticClass: "table table-bordered table-striped" }, [
-              _vm._m(2),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.products, function(product) {
-                  return _c("tr", { key: product.product_id }, [
-                    _c("td", [_vm._v(_vm._s(product.product_id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(product.barcode))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(product.price))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(product.quantity))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(product.supplier.supplier_name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(product.category))])
-                  ])
-                }),
-                0
-              )
-            ])
+            _c(
+              "table",
+              {
+                staticClass: "table table-bordered table-striped",
+                attrs: { id: "myTable" }
+              },
+              [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.products, function(product) {
+                    return _c("tr", { key: product.product_id }, [
+                      _c("td", [_vm._v(_vm._s(product.product_id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(product.barcode))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(product.price))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(product.quantity))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(product.supplier.supplier_name))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(product.category))]),
+                      _vm._v(" "),
+                      _vm._m(3, true)
+                    ])
+                  }),
+                  0
+                )
+              ]
+            )
           ])
         ])
       ])
@@ -54052,7 +54097,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(3),
+              _vm._m(4),
               _vm._v(" "),
               _c(
                 "form",
@@ -54082,6 +54127,7 @@ var render = function() {
                         ],
                         staticClass: "form-control",
                         attrs: {
+                          required: "",
                           type: "text",
                           id: "product",
                           placeholder: "Product Name"
@@ -54115,6 +54161,7 @@ var render = function() {
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
+                          required: "",
                           id: "barcode",
                           placeholder: "Barcode"
                         },
@@ -54147,6 +54194,7 @@ var render = function() {
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
+                          required: "",
                           id: "price",
                           placeholder: "In Php"
                         },
@@ -54171,7 +54219,11 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("v-select", {
-                          attrs: { options: _vm.suppliers, name: "supplier" },
+                          attrs: {
+                            options: _vm.suppliers,
+                            required: !_vm.supplier,
+                            name: "supplier"
+                          },
                           model: {
                             value: _vm.supplier,
                             callback: function($$v) {
@@ -54193,7 +54245,10 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("v-select", {
-                          attrs: { options: _vm.categories },
+                          attrs: {
+                            options: _vm.categories,
+                            required: !_vm.category
+                          },
                           model: {
                             value: _vm.category,
                             callback: function($$v) {
@@ -54207,7 +54262,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(4)
+                  _vm._m(5)
                 ]
               )
             ])
@@ -54278,8 +54333,56 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Supplier")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Category")])
+        _c("th", [_vm._v("Category")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c(
+        "a",
+        {
+          attrs: {
+            href: "#",
+            "data-toggle": "modal",
+            "data-target": "#exampleModal"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-plus" })]
+      ),
+      _vm._v(
+        "\n                                     \n                                    "
+      ),
+      _c(
+        "a",
+        {
+          attrs: {
+            href: "#",
+            "data-toggle": "modal",
+            "data-target": "#exampleModal"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-edit" })]
+      ),
+      _vm._v(
+        "\n                                     \n                                     "
+      ),
+      _c(
+        "a",
+        {
+          attrs: {
+            href: "#",
+            "data-toggle": "modal",
+            "data-target": "#exampleModal"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-trash" })]
+      )
     ])
   },
   function() {
