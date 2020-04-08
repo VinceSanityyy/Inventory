@@ -25,6 +25,8 @@
     },
     "dependencies": {
         "admin-lte": "^3.0.4",
-        "vue-router": "^3.1.6"
+        "sweetalert2": "^9.10.9",
+        "vue-router": "^3.1.6",
+        "vue-select": "^3.9.5"
     }
 }

@@ -16,5 +16,13 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+//products
+Route::get('/getProducts','ProductController@index');
+Route::post('/addProduct','ProductController@store');
+
+//suppliers
+Route::get('/getSuppliersCombo','SupplierController@getCombo');
+//regEx for route
+Route::get('{path}','HomeController@index')->where( 'path', '([A-z]+)?' );
