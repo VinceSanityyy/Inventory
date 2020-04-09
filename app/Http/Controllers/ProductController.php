@@ -57,9 +57,6 @@ class ProductController extends Controller
             ],422);
             
         } else {
-           
-
-
             $product->barcode = $request->barcode;
             $product->product_name = $request->product_name;
             $product->price = $request->price;

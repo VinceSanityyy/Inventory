@@ -18,6 +18,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const routes = [
     { path: '/products', component: require('./components/Products.vue').default },
     { path: '/history', component: require('./components/StockHistory.vue').default },
+    { path: '/suppliers', component: require('./components/Suppliers.vue').default },
 ]
 
 

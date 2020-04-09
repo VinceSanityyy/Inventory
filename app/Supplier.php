@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Supplier extends Model
 {
     use SoftDeletes;
+    
     protected $primaryKey = 'supplier_id';
     protected $fillable = [
         'supplier_id','supplier_name',

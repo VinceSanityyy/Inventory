@@ -14,7 +14,8 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        //
+        $suppliers = Supplier::all();
+        return response()->json($suppliers);
     }
 
     /**
@@ -35,7 +36,30 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $supplier = new Supplier;
+
+        $validator = \Validator::make($request->all(), [
+            'supplier_name' => 'required',
+            'supplier_email' => 'required|unique:suppliers|email',
+            'supplier_address'=> 'required',
+            'supplier_phone' => 'required|unique:suppliers',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = json_decode($validator->errors());
+            return response()->json([
+                'success' => false,
+                'message' => $errors
+            ],422);
+            
+        } else {
+            $supplier->supplier_name = $request->supplier_name;
+            $supplier->supplier_address = $request->supplier_address;
+            $supplier->supplier_phone = $request->supplier_phone;
+            $supplier->supplier_email = $request->supplier_email;
+            $supplier->save();
+        }
+
     }
 
     /**

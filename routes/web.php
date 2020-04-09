@@ -26,6 +26,8 @@ Route::delete('/deleteProduct/{product_id?}','ProductController@destroy');
 Route::post('/stockIn/{product_id?}','ProductController@stockIn');
 
 //suppliers
+Route::get('/getSuppliers','SupplierController@index');
+Route::post('/addSupplier','SupplierController@store');
 Route::get('/getSuppliersCombo','SupplierController@getCombo');
 
 //stockHistory

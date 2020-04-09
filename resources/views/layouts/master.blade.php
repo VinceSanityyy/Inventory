@@ -112,10 +112,10 @@
                     </router-link>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/UI/icons.html" class="nav-link">
+                    <router-link to="/suppliers" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Suppliers</p>
-                    </a>
+                    </router-link>
                   </li>
                   <li class="nav-item">
                     <router-link to="/history" class="nav-link">
