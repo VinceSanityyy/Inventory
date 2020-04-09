@@ -109,7 +109,13 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product = Product::findOrFail($request->product_id);
+        $product->barcode = $request->barcode;
+        $product->product_name = $request->product_name;
+        $product->price = $request->price;
+        $product->category = $request->category;
+        $product->supplier_id = $request->supplier;
+        $product->save();
     }
 
     /**

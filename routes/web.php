@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //products
 Route::get('/getProducts','ProductController@index');
 Route::post('/addProduct','ProductController@store');
+Route::put('/updateProduct/{product_id?}','ProductController@update');
 Route::delete('/deleteProduct/{product_id?}','ProductController@destroy');
 Route::post('/stockIn/{product_id?}','ProductController@stockIn');
 

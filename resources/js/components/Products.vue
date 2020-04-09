@@ -50,7 +50,7 @@
                                         <i class="fa fa-plus"></i>
                                         </a>
                                         &emsp;
-                                        <a href="#"  data-toggle="modal" data-target="#exampleModal">
+                                        <a href="#" @click="editModal(product)">
                                         <i class="fa fa-edit"></i>
                                         </a>
                                         &emsp;
@@ -75,7 +75,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form @submit.prevent="addProduct">
+                <form @submit.prevent ="editMode ? updateProduct() : addProduct()">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Product Name</label>
@@ -247,6 +247,31 @@ import 'vue-select/dist/vue-select.css'
                         this.getProducts()
                     }
                 })
+            },
+            editModal(product){
+                this.editMode = true
+                this.product_id = product.product_id
+                this.product_name = product.product_name
+                this.category = product.category
+                this.price = product.price
+                this.barcode = product.barcode
+                // this.supplier = product.supplier_id
+                $('#exampleModal').modal('show')
+            },
+            updateProduct(){
+                axios.put('/updateProduct/?product_id=' +this.product_id,{
+                    product_name: this.product_name,
+                    supplier: this.supplier.id,
+                    category: this.category,
+                    barcode: this.barcode,
+                    price: this.price
+                })
+                    .then((res)=>{
+                        this.clearValues()
+                        $('#exampleModal').modal('hide')
+                        toastr.success('Product Updated!')
+                        this.getProducts()
+                    })
             }
         },
         mounted() {

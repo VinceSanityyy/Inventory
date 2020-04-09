@@ -2261,6 +2261,34 @@ Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
           _this5.getProducts();
         }
       });
+    },
+    editModal: function editModal(product) {
+      this.editMode = true;
+      this.product_id = product.product_id;
+      this.product_name = product.product_name;
+      this.category = product.category;
+      this.price = product.price;
+      this.barcode = product.barcode; // this.supplier = product.supplier_id
+
+      $('#exampleModal').modal('show');
+    },
+    updateProduct: function updateProduct() {
+      var _this6 = this;
+
+      axios.put('/updateProduct/?product_id=' + this.product_id, {
+        product_name: this.product_name,
+        supplier: this.supplier.id,
+        category: this.category,
+        barcode: this.barcode,
+        price: this.price
+      }).then(function (res) {
+        _this6.clearValues();
+
+        $('#exampleModal').modal('hide');
+        toastr.success('Product Updated!');
+
+        _this6.getProducts();
+      });
     }
   },
   mounted: function mounted() {
@@ -54167,7 +54195,18 @@ var render = function() {
                         _vm._v(
                           "\n                                     \n                                    "
                         ),
-                        _vm._m(3, true),
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.editModal(product)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-edit" })]
+                        ),
                         _vm._v(
                           "\n                                     \n                                     "
                         ),
@@ -54213,7 +54252,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(4),
+              _vm._m(3),
               _vm._v(" "),
               _c(
                 "form",
@@ -54221,7 +54260,7 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      return _vm.addProduct($event)
+                      _vm.editMode ? _vm.updateProduct() : _vm.addProduct()
                     }
                   }
                 },
@@ -54378,7 +54417,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(5)
+                  _vm._m(4)
                 ]
               )
             ])
@@ -54405,7 +54444,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(6),
+              _vm._m(5),
               _vm._v(" "),
               _c(
                 "form",
@@ -54452,7 +54491,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(7)
+                  _vm._m(6)
                 ]
               )
             ])
@@ -54530,22 +54569,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Actions")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        attrs: {
-          href: "#",
-          "data-toggle": "modal",
-          "data-target": "#exampleModal"
-        }
-      },
-      [_c("i", { staticClass: "fa fa-edit" })]
-    )
   },
   function() {
     var _vm = this
