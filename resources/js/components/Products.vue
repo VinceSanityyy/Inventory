@@ -20,7 +20,7 @@
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">Products</h3>
-                        <button data-toggle="modal" data-target="#exampleModal" class="btn btn-primary" style="float:right;">Add Product</button>
+                        <button @click="addModal" class="btn btn-primary" style="float:right;">Add Product</button>
                     </div>
                     <div class="card-body">
                         <table id="myTable" class="table table-bordered table-striped">
@@ -268,10 +268,16 @@ import 'vue-select/dist/vue-select.css'
                 })
                     .then((res)=>{
                         this.clearValues()
+                        this.editMode = true
                         $('#exampleModal').modal('hide')
                         toastr.success('Product Updated!')
                         this.getProducts()
                     })
+            },
+            addModal(){
+                this.editMode = false
+                this.clearValues()
+                $('#exampleModal').modal('show')
             }
         },
         mounted() {

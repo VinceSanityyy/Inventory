@@ -27,5 +27,8 @@ Route::post('/stockIn/{product_id?}','ProductController@stockIn');
 
 //suppliers
 Route::get('/getSuppliersCombo','SupplierController@getCombo');
+
+//stockHistory
+Route::get('/getHistory','StockHistoryController@getHistory');
 //regEx for route
 Route::get('{path}','HomeController@index')->where( 'path', '([A-z]+)?' );

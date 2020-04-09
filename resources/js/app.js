@@ -7,7 +7,7 @@ import toastr from 'admin-lte/plugins/toastr/toastr.min.js'
 import swal from 'admin-lte/plugins/sweetalert2/sweetalert2.min.js'
 Vue.use(VueRouter)
 Vue.use(toastr)
-
+Vue.use(require('vue-moment'));
 
 
 window.swal = swal;
@@ -17,6 +17,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const routes = [
     { path: '/products', component: require('./components/Products.vue').default },
+    { path: '/history', component: require('./components/StockHistory.vue').default },
 ]
 
 

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
-
+use App\StockHistory;
+use Carbon\Carbon;
 class ProductController extends Controller
 {
     /**
@@ -27,16 +28,6 @@ class ProductController extends Controller
     public function create()
     {
        
-
-        // $validate = $request->validate([
-        //     'product_name' => 'required',
-        //     'barcode' => 'required|unique:products',
-        //     'price'=> 'required',
-        //     'category' => 'required',
-        //     'supplier_id' => 'required',
-        // ]);
-
-      
     }
 
     /**
@@ -48,6 +39,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = new Product;
+     
        
         $validator = \Validator::make($request->all(), [
             'product_name' => 'required',
@@ -65,13 +57,15 @@ class ProductController extends Controller
             ],422);
             
         } else {
+           
+
+
             $product->barcode = $request->barcode;
             $product->product_name = $request->product_name;
             $product->price = $request->price;
             $product->quantity = 0;
             $product->category = $request->category;
             $product->supplier_id = $request->supplier;
-            // dd($request->all());
             $product->save();
         }
 
@@ -127,12 +121,19 @@ class ProductController extends Controller
     public function destroy(Product $product_id,Request $request)
     {
         $product = Product::findOrFail($request->product_id);
-        
         $product->delete();
         
     }
 
     public function stockIn(Request $request){
+
+        $stock_history = new StockHistory;
+        $stock_history->user_id = \Auth::user()->id;
+        $stock_history->product_id = $request->product_id;
+        $stock_history->stock_added = $request->stocks;
+        $stock_history->date_added = Carbon::now()->toDateTimeString();
+        $stock_history->save();
+
         $product_id = $request->product_id;
         $product = Product::findOrFail($product_id);
         $product->increment('quantity',$request->stocks); 
