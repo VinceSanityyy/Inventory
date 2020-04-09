@@ -17,7 +17,6 @@ class CreateStockHistoriesTable extends Migration
             $table->bigIncrements('history_id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('product_id')->unsigned();
-            $table->bigInteger('supplier_id')->unsigned();
             $table->string('stock_added');
             $table->string('date_added');
             $table->timestamps();
@@ -28,10 +27,7 @@ class CreateStockHistoriesTable extends Migration
         {
             $table->foreign('product_id')
                     ->references('product_id')
-                    ->on('products');
-            $table->foreign('supplier_id')
-                    ->references('supplier_id')
-                    ->on('suppliers');  
+                    ->on('products'); 
             $table->foreign('user_id')
                     ->references('id')
                     ->on('users');         
