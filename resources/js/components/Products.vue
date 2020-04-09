@@ -28,6 +28,7 @@
                                 <tr>
                                     <th>Product ID</th>
                                     <th>Barcode</th>
+                                    <th>Product Name</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
                                     <th>Supplier</th>
@@ -39,12 +40,13 @@
                                 <tr v-for="product in products" :key="product.product_id">
                                     <td>{{product.product_id}}</td>
                                     <td>{{product.barcode}}</td>
+                                    <td>{{product.product_name}}</td>
                                     <td>{{product.price}}</td>
                                     <td>{{product.quantity}}</td>
                                     <td>{{product.supplier.supplier_name}}</td>
                                     <td>{{product.category}}</td>
                                     <td>
-                                        <a href="#"  data-toggle="modal" data-target="#exampleModal">
+                                        <a href="#"  @click="stockInModal(product)">
                                         <i class="fa fa-plus"></i>
                                         </a>
                                         &emsp;
@@ -52,7 +54,7 @@
                                         <i class="fa fa-edit"></i>
                                         </a>
                                         &emsp;
-                                         <a href="#"  data-toggle="modal" data-target="#exampleModal">
+                                         <a href="#" @click="deleteProduct(product.product_id)">
                                         <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
@@ -105,6 +107,32 @@
             </div>
             </div>
          <!-- Modal -->
+         <!-- Stock In -->
+         <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Stocks In</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form @submit.prevent="stocksIn">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Input Quantity</label>
+                        <input v-model="stocks" required type="number" class="form-control" placeholder="Quantity">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                </form>
+                </div>
+            </div>
+            </div>
+         <!-- Stock in -->
     </section>
 </template>
 
@@ -125,7 +153,9 @@ import 'vue-select/dist/vue-select.css'
                 categories:['Phone','Laptop','Computers','Appliances'],
                 category:'',
                 price:'',
-                errorInputs:[]
+                errorInputs:[],
+                stocks:'',
+                product_id:''
             }
         },
         methods:{
@@ -133,7 +163,7 @@ import 'vue-select/dist/vue-select.css'
                 axios.get('/getSuppliersCombo')
                     .then((res)=>{
                         this.suppliers = res.data
-                        this.myTable()
+                        
                     }).catch((err)=>{
                         console.log(err)
                     })
@@ -151,6 +181,7 @@ import 'vue-select/dist/vue-select.css'
                     console.log(this.supplier.id)
                     $('#exampleModal').modal('hide')
                     toastr.success('Product Added!')
+                    this.getProducts()
                 }).catch((res)=>{
                     toastr.error(res.message+' Check your Inputs')
                 })
@@ -159,6 +190,7 @@ import 'vue-select/dist/vue-select.css'
                 axios.get('/getProducts')
                     .then((res)=>{
                         this.products = res.data
+                        this.myTable()
                     }).catch((err)=>{
                         console.log(err)
                     })
@@ -175,6 +207,46 @@ import 'vue-select/dist/vue-select.css'
                 this.barcode=''
                 this.quantity=''
                 this.price=''
+            },
+            stockInModal(product){
+                console.log(product.product_id)
+                this.product_id = product.product_id
+                $('#exampleModal1').modal('show')
+            },
+            stocksIn(){
+                axios.post('/stockIn/?product_id='+this.product_id,{
+                    stocks: this.stocks
+                })
+                    .then((res)=>{
+                        toastr.success('Stocks Added!')
+                        this.product_id=''
+                        $('#exampleModal1').modal('hide')
+                        this.getProducts()
+                    }).catch((err)=>{
+                        console.log(err)
+                        toastr.error('Something went wrong')
+                })
+            },
+            deleteProduct(product_id){
+             swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) {
+                        axios.delete('/deleteProduct/?product_id='+product_id)
+                        swal.fire(
+                        'Deleted!',
+                        'Product Deleted',
+                        'success'
+                        )
+                        this.getProducts()
+                    }
+                })
             }
         },
         mounted() {
