@@ -41,7 +41,16 @@
                                     <td>{{supplier.supplier_address}}</td>
                                     <td>{{supplier.supplier_email}}</td>
                                     <td>{{supplier.supplier_phone}}</td>
-                                    <td></td>
+                                    <td>
+                                        &emsp;
+                                        <a href="#" >
+                                        <i class="fa fa-edit"></i>
+                                        </a>
+                                        &emsp;
+                                         <a href="#">
+                                        <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -77,7 +86,6 @@
                         <label for="exampleInputEmail1">Phone</label>
                         <input v-model="supplier_phone" type="text" required class="form-control" id="price" placeholder="">
                     </div>
-                 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
