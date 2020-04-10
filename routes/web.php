@@ -32,6 +32,9 @@ Route::put('/updateSupplier/{supplier_id?}','SupplierController@update');
 Route::delete('/deleteSupplier/{supplier_id?}','SupplierController@destroy');
 Route::get('/getSuppliersCombo','SupplierController@getCombo');
 
+//reports
+Route::get('/getProductPercentageBySupplier','SupplierController@getProductPercentageBySupplier');
+
 //stockHistory
 Route::get('/getHistory','StockHistoryController@getHistory');
 //regEx for route

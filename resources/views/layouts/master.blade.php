@@ -124,11 +124,10 @@
                     </router-link>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/UI/icons.html" class="nav-link">
+                    <router-link to="/reports" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Reports</p>
-                    </a>
-                  </li>
+                    </router-link>
                 </ul>
             </li>
             <li class="nav-item has-treeview">

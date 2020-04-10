@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Supplier;
 use Illuminate\Http\Request;
+use App\Product;
 
 class SupplierController extends Controller
 {
@@ -120,5 +121,16 @@ class SupplierController extends Controller
             ->where('deleted_at',null)
             ->get();
         return response()->json($supplier);
+    }
+
+    public function getProductPercentageBySupplier(){
+    
+        $count= \DB::table('suppliers')
+                ->join('products','products.supplier_id','=','suppliers.supplier_id')
+                ->select(\DB::raw('suppliers.supplier_name as label'),\DB::raw("COUNT('products.*') as value"))
+                ->groupBy('suppliers.supplier_name')
+                ->get();
+
+        return response()->json($count);
     }
 }
