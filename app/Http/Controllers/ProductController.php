@@ -124,17 +124,17 @@ class ProductController extends Controller
 
     public function stockIn(Request $request){
 
-        $stock_history = new StockHistory;
-        $stock_history->user_id = \Auth::user()->id;
-        $stock_history->product_id = $request->product_id;
-        $stock_history->stock_added = $request->stocks;
-        $stock_history->date_added = Carbon::now()->toDateTimeString();
-        $stock_history->save();
+        //dd('hello');
+         $stock_history = new StockHistory;
+         $stock_history->user_id = \Auth::user()->id;
+         $stock_history->product_id = $request->product_id;
+         $stock_history->stock_added = $request->stocks;
+         $stock_history->date_added = Carbon::now()->toDateTimeString();
+         $stock_history->save();
 
-        $product_id = $request->product_id;
-        $product = Product::findOrFail($product_id);
-        $product->increment('quantity',$request->stocks); 
-        // dd($request->all());
-        $product->save();
+         $product_id = $request->product_id;
+         $product = Product::findOrFail($product_id);
+         $product->increment('quantity',$request->stocks); 
+         $product->save();
     }
 }

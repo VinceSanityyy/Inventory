@@ -48,7 +48,7 @@
                                     <td>{{product.category}}</td>
                                     <td> 
                                         <span v-if="product.quantity <= 10" class="badge bg-danger">Need to Restock</span>
-                                        <span v-else-if="product.quantity >= 50" class="badge bg-success">Available</span>
+                                        <span v-else-if="product.quantity >= 11" class="badge bg-success">Available</span>
                                     </td>
                                     <td>
                                         <a href="#"  @click="stockInModal(product)">
@@ -219,7 +219,7 @@ import 'vue-select/dist/vue-select.css'
                 $('#exampleModal1').modal('show')
             },
             stocksIn(){
-                axios.post('/stockIn/?product_id='+this.product_id,{
+                axios.put('/stockIn/?product_id='+this.product_id,{
                     stocks: this.stocks
                 })
                     .then((res)=>{
