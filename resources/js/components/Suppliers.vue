@@ -44,11 +44,11 @@
                                     <td>
                                         &emsp;
                                         <a href="#" >
-                                        <i class="fa fa-edit"></i>
+                                        <i class="fa fa-edit" @click="editModal(supplier)"></i>
                                         </a>
                                         &emsp;
                                          <a href="#">
-                                        <i class="fa fa-trash"></i>
+                                        <i class="fa fa-trash" @click="deleteSupplier(supplier.supplier_id)"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -68,7 +68,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form @submit.prevent="addSupplier">
+                <form @submit.prevent="editMode ? updateSupplier() : addSupplier()">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Supplier Name</label>
@@ -108,6 +108,7 @@
                 supplier_address:'',
                 supplier_email:'',
                 supplier_phone:'',
+                supplier_id:'',
                 editMode:false,
             }
         },
@@ -129,6 +130,7 @@
                 this.supplier_address=''
                 this.supplier_email=''
                 this.supplier_phone=''
+                this.supplier_Id=''
             },
             addModal(){
                 this.editMode = false
@@ -150,7 +152,55 @@
                     }).catch((res)=>{
                         toastr.error(res.message+ ' Check your inputs')
                     })
+            },
+            editModal(supplier){
+                this.editMode = true
+                this.supplier_name = supplier.supplier_name
+                this.supplier_address = supplier.supplier_address
+                this.supplier_phone = supplier.supplier_phone
+                this.supplier_email = supplier.supplier_email
+                this.supplier_id = supplier.supplier_id
+                $('#exampleModal').modal('show')
+            },
+            async updateSupplier(){
+                await axios.put('/updateSupplier/?supplier_id='+this.supplier_id,{
+                    supplier_name: this.supplier_name,
+                    supplier_address: this.supplier_address,
+                    supplier_phone: this.supplier_phone,
+                    supplier_email: this.supplier_email
+                })
+                    .then((res)=>{
+                        this.clearValues()
+                        $('#exampleModal').modal('hide')
+                        toastr.success('Updated!')
+                        this.editMode = false
+                        this.getSuppliers()
+                    }).catch((err)=>{
+                         toastr.error(res.message+ ' Check your inputs')
+                    })
+            },
+            deleteSupplier(supplier_id){
+                swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.value) {
+                                axios.delete('/deleteSupplier/?supplier_id='+supplier_id)
+                                swal.fire(
+                                'Deleted!',
+                                'Supplier Deleted',
+                                'success'
+                            )
+                        this.getSuppliers()
+                    }
+                })
             }
+
         },
         created(){
             this.getSuppliers()

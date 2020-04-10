@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Laravel 6 Inventory</title>
+  <title>Inventory gago</title>
 
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
 </head>
@@ -164,12 +164,17 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="pages/widgets.html" class="nav-link">
+                <a href="{{ route('logout') }}" class="nav-link"
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
                   <i class="nav-icon fas fa-times"></i>
                   <p>
                     Log out
                   </p>
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+              </form>
             </li>
         </ul>
       </nav>
@@ -197,7 +202,7 @@
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2014-2019 <a href="https://pornhub.com">Footer diri</a>.</strong> All rights reserved.
   </footer>
 </div>
 <script src="{{asset('js/app.js')}}"></script>

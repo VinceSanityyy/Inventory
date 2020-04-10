@@ -2159,6 +2159,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
 
@@ -2296,7 +2301,7 @@ Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
       }).then(function (res) {
         _this6.clearValues();
 
-        _this6.editMode = true;
+        _this6.editMode = false;
         $('#exampleModal').modal('hide');
         toastr.success('Product Updated!');
 
@@ -2540,6 +2545,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       supplier_address: '',
       supplier_email: '',
       supplier_phone: '',
+      supplier_id: '',
       editMode: false
     };
   },
@@ -2577,6 +2583,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.supplier_address = '';
       this.supplier_email = '';
       this.supplier_phone = '';
+      this.supplier_Id = '';
     },
     addModal: function addModal() {
       this.editMode = false;
@@ -2600,6 +2607,69 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this2.getSuppliers();
       })["catch"](function (res) {
         toastr.error(res.message + ' Check your inputs');
+      });
+    },
+    editModal: function editModal(supplier) {
+      this.editMode = true;
+      this.supplier_name = supplier.supplier_name;
+      this.supplier_address = supplier.supplier_address;
+      this.supplier_phone = supplier.supplier_phone;
+      this.supplier_email = supplier.supplier_email;
+      this.supplier_id = supplier.supplier_id;
+      $('#exampleModal').modal('show');
+    },
+    updateSupplier: function updateSupplier() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put('/updateSupplier/?supplier_id=' + _this3.supplier_id, {
+                  supplier_name: _this3.supplier_name,
+                  supplier_address: _this3.supplier_address,
+                  supplier_phone: _this3.supplier_phone,
+                  supplier_email: _this3.supplier_email
+                }).then(function (res) {
+                  _this3.clearValues();
+
+                  $('#exampleModal').modal('hide');
+                  toastr.success('Updated!');
+                  _this3.editMode = false;
+
+                  _this3.getSuppliers();
+                })["catch"](function (err) {
+                  toastr.error(res.message + ' Check your inputs');
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteSupplier: function deleteSupplier(supplier_id) {
+      var _this4 = this;
+
+      swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          axios["delete"]('/deleteSupplier/?supplier_id=' + supplier_id);
+          swal.fire('Deleted!', 'Supplier Deleted', 'success');
+
+          _this4.getSuppliers();
+        }
       });
     }
   },
@@ -55243,6 +55313,18 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(product.category))]),
                       _vm._v(" "),
                       _c("td", [
+                        product.quantity <= 10
+                          ? _c("span", { staticClass: "badge bg-danger" }, [
+                              _vm._v("Need to Restock")
+                            ])
+                          : product.quantity >= 50
+                          ? _c("span", { staticClass: "badge bg-success" }, [
+                              _vm._v("Available")
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
                         _c(
                           "a",
                           {
@@ -55611,6 +55693,8 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Category")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Tags")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])
     ])
@@ -55908,7 +55992,34 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(supplier.supplier_phone))]),
                       _vm._v(" "),
-                      _vm._m(2, true)
+                      _c("td", [
+                        _vm._v(
+                          "\n                                     \n                                    "
+                        ),
+                        _c("a", { attrs: { href: "#" } }, [
+                          _c("i", {
+                            staticClass: "fa fa-edit",
+                            on: {
+                              click: function($event) {
+                                return _vm.editModal(supplier)
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(
+                          "\n                                     \n                                     "
+                        ),
+                        _c("a", { attrs: { href: "#" } }, [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteSupplier(supplier.supplier_id)
+                              }
+                            }
+                          })
+                        ])
+                      ])
                     ])
                   }),
                   0
@@ -55938,7 +56049,7 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(3),
+              _vm._m(2),
               _vm._v(" "),
               _c(
                 "form",
@@ -55946,7 +56057,7 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      return _vm.addSupplier($event)
+                      _vm.editMode ? _vm.updateSupplier() : _vm.addSupplier()
                     }
                   }
                 },
@@ -56085,7 +56196,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(4)
+                  _vm._m(3)
                 ]
               )
             ])
@@ -56139,25 +56250,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Supplier Phone")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _vm._v(
-        "\n                                     \n                                    "
-      ),
-      _c("a", { attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-edit" })
-      ]),
-      _vm._v(
-        "\n                                     \n                                     "
-      ),
-      _c("a", { attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-trash" })
       ])
     ])
   },

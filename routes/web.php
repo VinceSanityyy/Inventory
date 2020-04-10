@@ -28,6 +28,8 @@ Route::post('/stockIn/{product_id?}','ProductController@stockIn');
 //suppliers
 Route::get('/getSuppliers','SupplierController@index');
 Route::post('/addSupplier','SupplierController@store');
+Route::put('/updateSupplier/{supplier_id?}','SupplierController@update');
+Route::delete('/deleteSupplier/{supplier_id?}','SupplierController@destroy');
 Route::get('/getSuppliersCombo','SupplierController@getCombo');
 
 //stockHistory

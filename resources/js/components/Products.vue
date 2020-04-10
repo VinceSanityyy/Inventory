@@ -33,6 +33,7 @@
                                     <th>Quantity</th>
                                     <th>Supplier</th>
                                     <th>Category</th>
+                                    <th>Tags</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -45,6 +46,10 @@
                                     <td>{{product.quantity}}</td>
                                     <td>{{product.supplier.supplier_name}}</td>
                                     <td>{{product.category}}</td>
+                                    <td> 
+                                        <span v-if="product.quantity <= 10" class="badge bg-danger">Need to Restock</span>
+                                        <span v-else-if="product.quantity >= 50" class="badge bg-success">Available</span>
+                                    </td>
                                     <td>
                                         <a href="#"  @click="stockInModal(product)">
                                         <i class="fa fa-plus"></i>
@@ -268,7 +273,7 @@ import 'vue-select/dist/vue-select.css'
                 })
                     .then((res)=>{
                         this.clearValues()
-                        this.editMode = true
+                        this.editMode = false
                         $('#exampleModal').modal('hide')
                         toastr.success('Product Updated!')
                         this.getProducts()

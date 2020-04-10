@@ -93,7 +93,13 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $supplier = Supplier::findOrFail($request->supplier_id);
+        $supplier->supplier_name = $request->supplier_name;
+        $supplier->supplier_email = $request->supplier_email;
+        $supplier->supplier_phone = $request->supplier_phone;
+        $supplier->supplier_address = $request->supplier_address;
+        // dd($request->all());
+        $supplier->save();
     }
 
     /**
@@ -102,9 +108,10 @@ class SupplierController extends Controller
      * @param  \App\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Supplier $supplier, Request $request)
     {
-        //
+        $supplier = Supplier::findOrFail($request->supplier_id);
+        $supplier->delete();
     }
 
     public function getCombo(){
