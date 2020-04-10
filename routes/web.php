@@ -23,7 +23,7 @@ Route::get('/getProducts','ProductController@index');
 Route::post('/addProduct','ProductController@store');
 Route::put('/updateProduct/{product_id?}','ProductController@update');
 Route::delete('/deleteProduct/{product_id?}','ProductController@destroy');
-Route::post('/stockIn/{product_id?}','ProductController@stockIn');
+Route::put('/stockIn/{product_id?}','ProductController@stockIn');
 
 //suppliers
 Route::get('/getSuppliers','SupplierController@index');
