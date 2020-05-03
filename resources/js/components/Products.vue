@@ -23,7 +23,7 @@
                         <button @click="addModal" class="btn btn-primary" style="float:right;">Add Product</button>
                     </div>
                     <div class="card-body">
-                        <table id="myTable" class="table table-bordered table-striped">
+                        <table id="myTable" class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Product ID</th>
