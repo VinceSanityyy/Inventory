@@ -22,8 +22,8 @@
                         <h3 class="card-title">Suppliers</h3>
                           <button @click="addModal" class="btn btn-primary" style="float:right;">Add Supplier</button>
                     </div>
-                    <div class="card-body">
-                        <table id="myTable" class="table table-bordered table-striped table-responsive">
+                    <div class="card-body table-responsive">
+                        <table id="myTable" class="table table-bordered table-striped ">
                             <thead>
                                 <tr>
                                     <th>Supplier ID</th>
