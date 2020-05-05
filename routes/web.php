@@ -1,5 +1,5 @@
 <?php
-
+use App\Events\InventoryEvent;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,11 +12,14 @@
 */
 
 Route::get('/', function () {
+    broadcast(new InventoryEvent('somedata'));
     return view('welcome');
 });
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+
+
 
 //products
 Route::get('/getProducts','ProductController@index');

@@ -27,3 +27,19 @@ if (token) {
 }
 
 
+
+import Echo from "laravel-echo"
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '644a4ac1988060882370',
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    disableStats: true,
+});
+
+window.Echo.channel('InventoryChannel').listen('InventoryEvent',(e)=>{
+    console.log(e)
+})
