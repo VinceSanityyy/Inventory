@@ -38,8 +38,9 @@ window.Echo = new Echo({
     wsHost: window.location.hostname,
     wsPort: 6001,
     disableStats: true,
+    enabledTransports: ['ws', 'wss']
 });
 
-window.Echo.channel('InventoryChannel').listen('InventoryEvent',(e)=>{
-    console.log(e)
+window.Echo.channel('Inventory').listen('InventoryEvent',(e)=>{
+    console.log('hello')
 })

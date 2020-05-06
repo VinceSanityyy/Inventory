@@ -12,7 +12,8 @@ use App\Events\InventoryEvent;
 */
 
 Route::get('/', function () {
-    broadcast(new InventoryEvent('somedata'));
+    // broadcast(new InventoryEvent('some data'));
+    event(new InventoryEvent('somedata'));
     return view('welcome');
 });
 

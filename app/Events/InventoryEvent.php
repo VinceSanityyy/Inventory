@@ -33,6 +33,6 @@ class InventoryEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('InventoryChannel');
+        return new Channel('Inventory');
     }
 }
