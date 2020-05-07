@@ -28,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-       
+
     }
 
     /**
@@ -54,11 +54,8 @@ class ProductController extends Controller
                 'success' => false,
                 'message' => $errors
             ],422);
-            
+
         } else {
-           
-            $barcode = $request->barcode;
-            broadcast(new ProductsEvent($barcode));
 
             $product->barcode = $request->barcode;
             $product->product_name = $request->product_name;
@@ -67,8 +64,8 @@ class ProductController extends Controller
             $product->category = $request->category;
             $product->supplier_id = $request->supplier;
             $product->save();
-            
-            
+
+            broadcast(new ProductsEvent(\Auth::user()->name, $product));
         }
     }
 
@@ -122,7 +119,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($request->product_id);
         $product->delete();
-        
+
     }
 
     public function stockIn(Request $request){
@@ -136,7 +133,7 @@ class ProductController extends Controller
 
         $product_id = $request->product_id;
         $product = Product::findOrFail($product_id);
-        $product->increment('quantity',$request->stocks); 
+        $product->increment('quantity',$request->stocks);
         // dd($request->all());
         $product->save();
     }

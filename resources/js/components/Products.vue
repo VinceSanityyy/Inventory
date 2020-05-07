@@ -46,7 +46,7 @@
                                     <td>{{product.quantity}}</td>
                                     <td>{{product.supplier.supplier_name}}</td>
                                     <td>{{product.category}}</td>
-                                    <td> 
+                                    <td>
                                         <span v-if="product.quantity <= 10" class="badge bg-danger">Need to Restock</span>
                                         <span v-else class="badge bg-success">In Stock</span>
                                     </td>
@@ -168,7 +168,7 @@ import 'vue-select/dist/vue-select.css'
                 axios.get('/getSuppliersCombo')
                     .then((res)=>{
                         this.suppliers = res.data
-                        
+
                     }).catch((err)=>{
                         console.log(err)
                     })
@@ -295,6 +295,7 @@ import 'vue-select/dist/vue-select.css'
             Echo.join('Products')
                 .listen('ProductsEvent',(event)=>{
                     // this.products.push(event.products)
+                    console.log(`${event.product} has been added by ${event.user}`);
                     this.getProducts()
                 })
                 .here(()=>{
