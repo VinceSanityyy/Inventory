@@ -6,6 +6,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use App\StockHistory;
 use Carbon\Carbon;
+use App\Events\ProductsEvent;
 class ProductController extends Controller
 {
     /**
@@ -39,8 +40,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = new Product;
-     
-       
         $validator = \Validator::make($request->all(), [
             'product_name' => 'required',
             'barcode' => 'required|unique:products',
@@ -57,6 +56,10 @@ class ProductController extends Controller
             ],422);
             
         } else {
+           
+            $barcode = $request->barcode;
+            broadcast(new ProductsEvent($barcode));
+
             $product->barcode = $request->barcode;
             $product->product_name = $request->product_name;
             $product->price = $request->price;
@@ -64,9 +67,9 @@ class ProductController extends Controller
             $product->category = $request->category;
             $product->supplier_id = $request->supplier;
             $product->save();
+            
+            
         }
-
-      
     }
 
     /**

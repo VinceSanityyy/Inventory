@@ -183,7 +183,7 @@ import 'vue-select/dist/vue-select.css'
                     price: this.price
                 }).then((res)=>{
                     this.clearValues()
-                    console.log(this.supplier.id)
+                    // console.log(this.supplier.id)
                     $('#exampleModal').modal('hide')
                     toastr.success('Product Added!')
                     this.getProducts()
@@ -291,6 +291,15 @@ import 'vue-select/dist/vue-select.css'
         created(){
             this.getProducts()
             this.getSuppliers()
+
+            Echo.join('Products')
+                .listen('ProductsEvent',(event)=>{
+                    // this.products.push(event.products)
+                    this.getProducts()
+                })
+                .here(()=>{
+                    console.log('here')
+                })
         }
     }
 </script>

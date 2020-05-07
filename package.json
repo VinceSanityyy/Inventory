@@ -27,7 +27,7 @@
         "admin-lte": "^3.0.4",
         "fusioncharts": "^3.15.1-sr.1",
         "laravel-echo": "^1.7.0",
-        "pusher-js": "^6.0.2",
+        "pusher-js": "4.3.1",
         "sweetalert2": "^9.10.9",
         "vue-fusioncharts": "^3.0.4",
         "vue-moment": "^4.1.0",
