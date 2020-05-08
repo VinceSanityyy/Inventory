@@ -118,6 +118,7 @@ class ProductController extends Controller
     public function destroy(Product $product_id,Request $request)
     {
         $product = Product::findOrFail($request->product_id);
+        broadcast(new ProductsEvent(\Auth::user()->name, $product));
         $product->delete();
 
     }

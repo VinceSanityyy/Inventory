@@ -160,7 +160,8 @@ import 'vue-select/dist/vue-select.css'
                 price:'',
                 errorInputs:[],
                 stocks:'',
-                product_id:''
+                product_id:'',
+                updates:[]
             }
         },
         methods:{
@@ -183,10 +184,9 @@ import 'vue-select/dist/vue-select.css'
                     price: this.price
                 }).then((res)=>{
                     this.clearValues()
-                    // console.log(this.supplier.id)
                     $('#exampleModal').modal('hide')
                     toastr.success('Product Added!')
-                    this.getProducts()
+                    // this.getProducts()
                 }).catch((res)=>{
                     toastr.error(res.message+' Check your Inputs')
                 })
@@ -292,15 +292,14 @@ import 'vue-select/dist/vue-select.css'
             this.getProducts()
             this.getSuppliers()
 
-            Echo.join('Products')
-                .listen('ProductsEvent',(event)=>{
-                    // this.products.push(event.products)
-                    console.log(`${event.product} has been added by ${event.user}`);
-                    this.getProducts()
-                })
-                .here(()=>{
-                    console.log('here')
-                })
+            window.Echo.channel('Products').listen('ProductsEvent',(e)=>{
+                // this.products.push(e.product)
+                // this.getProducts()
+                console.log(e)
+                // console.log(e.product.product_name +' has been added by '+ e.user);
+                // toastr.success(e.product.product_name +' has been added by '+ e.user)
+               
+            })
         }
     }
 </script>

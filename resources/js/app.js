@@ -15,6 +15,7 @@ window.swal = swal;
 window.toastr = require('toastr')
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('navbar-notifications', require('./components/NavbarNotifications.vue').default);
 
 const routes = [
     { path: '/products', component: require('./components/Products.vue').default },

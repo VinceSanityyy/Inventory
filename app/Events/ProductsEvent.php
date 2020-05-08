@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-// use App\Product;
+use App\Product;
 class ProductsEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -31,7 +31,7 @@ class ProductsEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'product' => $this->product,
+            'product' => $this->product->with('supplier'),
             'user' => $this->user
         ];
     }
