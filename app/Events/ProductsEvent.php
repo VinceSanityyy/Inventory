@@ -15,24 +15,28 @@ class ProductsEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user, $product;
+    public $user, $product, $type;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user, Product $product)
+    public function __construct($user, $type, Product $product)
     {
         $this->user = $user;
         $this->product = $product;
+        $this->type = $type;
     }
 
     public function broadcastWith(): array
     {
+        // dd($this->product);
         return [
-            'product' => $this->product->with('supplier'),
-            'user' => $this->user
+            // 'product' => $this->product->with('supplier')->orderBy('product_id', 'desc')->first(),
+            'product' => $this->product,
+            'user' => $this->user,
+            'type' => $this->type
         ];
     }
 

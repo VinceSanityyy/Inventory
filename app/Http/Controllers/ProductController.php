@@ -56,7 +56,6 @@ class ProductController extends Controller
             ],422);
 
         } else {
-
             $product->barcode = $request->barcode;
             $product->product_name = $request->product_name;
             $product->price = $request->price;
@@ -65,7 +64,7 @@ class ProductController extends Controller
             $product->supplier_id = $request->supplier;
             $product->save();
 
-            broadcast(new ProductsEvent(\Auth::user()->name, $product));
+            broadcast(new ProductsEvent(\Auth::user()->name, 'add', $product));
         }
     }
 
@@ -107,6 +106,7 @@ class ProductController extends Controller
         $product->category = $request->category;
         $product->supplier_id = $request->supplier;
         $product->save();
+        broadcast(new ProductsEvent(\Auth::user()->name, 'update', $product));
     }
 
     /**
@@ -118,7 +118,8 @@ class ProductController extends Controller
     public function destroy(Product $product_id,Request $request)
     {
         $product = Product::findOrFail($request->product_id);
-        broadcast(new ProductsEvent(\Auth::user()->name, $product));
+        // broadcast(new ProductsEvent(\Auth::user()->name, $product));
+        broadcast(new ProductsEvent(\Auth::user()->name, 'delete', $product));
         $product->delete();
 
     }

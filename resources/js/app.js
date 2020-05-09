@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import toastr from 'admin-lte/plugins/toastr/toastr.min.js'
 import swal from 'admin-lte/plugins/sweetalert2/sweetalert2.min.js'
 import VueFusionCharts from 'vue-fusioncharts';
+import NavbarNotifications from './components/NavbarNotifications'
 Vue.use(VueRouter)
 Vue.use(toastr)
 Vue.use(require('vue-moment'));
@@ -32,5 +33,5 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
 });

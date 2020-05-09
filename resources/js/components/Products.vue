@@ -143,9 +143,14 @@
 
 <script>
 import vSelect from 'vue-select'
+Vue.component('navbar-notification',NavbarNotificationsVue)
 Vue.component('v-select', vSelect)
 import 'vue-select/dist/vue-select.css'
+import NavbarNotificationsVue from './NavbarNotifications.vue'
     export default {
+        components: {
+            NavbarNotificationsVue
+        },
         data(){
             return{
                 editMode: false,
@@ -186,7 +191,10 @@ import 'vue-select/dist/vue-select.css'
                     this.clearValues()
                     $('#exampleModal').modal('hide')
                     toastr.success('Product Added!')
-                    // this.getProducts()
+                    this.getProducts()
+        
+                   
+                    
                 }).catch((res)=>{
                     toastr.error(res.message+' Check your Inputs')
                 })
@@ -291,14 +299,27 @@ import 'vue-select/dist/vue-select.css'
         created(){
             this.getProducts()
             this.getSuppliers()
-
+            this.updates = JSON.parse(localStorage.setItem("responses","") || "null") || [];
+            this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+            // console.log(localStorage.getItem("updates", JSON.parse(this.updates)))
             window.Echo.channel('Products').listen('ProductsEvent',(e)=>{
-                // this.products.push(e.product)
-                // this.getProducts()
-                console.log(e)
-                // console.log(e.product.product_name +' has been added by '+ e.user);
-                // toastr.success(e.product.product_name +' has been added by '+ e.user)
-               
+                if(e.type === 'add'){
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push(e.product.product_name +' has been added by '+ e.user);
+                    localStorage.setItem("responses", JSON.stringify(this.updates))
+                    this.getProducts()
+                }else if(e.type === 'delete'){
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push(e.product.product_name +' has been removed by '+ e.user);
+                    localStorage.setItem("responses", JSON.stringify(this.updates))
+                    this.getProducts()   
+                }else if(e.type === 'update'){
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push(e.product.product_name +' has been updated by '+ e.user);
+                    localStorage.setItem("responses", JSON.stringify(this.updates))
+                    this.getProducts() 
+                }
+                
             })
         }
     }
