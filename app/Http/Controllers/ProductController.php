@@ -138,5 +138,6 @@ class ProductController extends Controller
         $product->increment('quantity',$request->stocks);
         // dd($request->all());
         $product->save();
+        broadcast(new ProductsEvent(\Auth::user()->name, 'stockin', $product));
     }
 }

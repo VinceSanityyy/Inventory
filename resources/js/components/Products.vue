@@ -299,9 +299,7 @@ import NavbarNotificationsVue from './NavbarNotifications.vue'
         created(){
             this.getProducts()
             this.getSuppliers()
-            // this.updates = JSON.parse(localStorage.setItem("responses","") || "null") || [];
             this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
-            // console.log(localStorage.getItem("updates", JSON.parse(this.updates)))
             window.Echo.channel('Products').listen('ProductsEvent',(e)=>{
                 if(e.type === 'add'){
                     this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
@@ -316,6 +314,12 @@ import NavbarNotificationsVue from './NavbarNotifications.vue'
                 }else if(e.type === 'update'){
                     this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
                     this.updates.push(e.product.product_name +' has been updated by '+ e.user);
+                    localStorage.setItem("responses", JSON.stringify(this.updates))
+                    this.getProducts() 
+                }else if(e.type === 'stockin'){
+                    console.log(e.product.quantity)
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push(e.user +' added '+ e.product.quantity +' pcs of '+ e.product.product_name);
                     localStorage.setItem("responses", JSON.stringify(this.updates))
                     this.getProducts() 
                 }
