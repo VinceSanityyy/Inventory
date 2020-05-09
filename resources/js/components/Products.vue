@@ -143,14 +143,9 @@
 
 <script>
 import vSelect from 'vue-select'
-Vue.component('navbar-notification',NavbarNotificationsVue)
 Vue.component('v-select', vSelect)
 import 'vue-select/dist/vue-select.css'
-import NavbarNotificationsVue from './NavbarNotifications.vue'
     export default {
-        components: {
-            NavbarNotificationsVue
-        },
         data(){
             return{
                 editMode: false,
@@ -166,7 +161,6 @@ import NavbarNotificationsVue from './NavbarNotifications.vue'
                 errorInputs:[],
                 stocks:'',
                 product_id:'',
-                updates:[]
             }
         },
         methods:{
@@ -299,30 +293,29 @@ import NavbarNotificationsVue from './NavbarNotifications.vue'
         created(){
             this.getProducts()
             this.getSuppliers()
-            this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
             window.Echo.channel('Products').listen('ProductsEvent',(e)=>{
-                if(e.type === 'add'){
-                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
-                    this.updates.push(e.product.product_name +' has been added by '+ e.user);
-                    localStorage.setItem("responses", JSON.stringify(this.updates))
-                    this.getProducts()
-                }else if(e.type === 'delete'){
-                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
-                    this.updates.push(e.product.product_name +' has been removed by '+ e.user);
-                    localStorage.setItem("responses", JSON.stringify(this.updates))
-                    this.getProducts()   
-                }else if(e.type === 'update'){
-                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
-                    this.updates.push(e.product.product_name +' has been updated by '+ e.user);
-                    localStorage.setItem("responses", JSON.stringify(this.updates))
-                    this.getProducts() 
-                }else if(e.type === 'stockin'){
-                    console.log(e.product.quantity)
-                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
-                    this.updates.push(e.user +' added '+ e.product.quantity +' pcs of '+ e.product.product_name);
-                    localStorage.setItem("responses", JSON.stringify(this.updates))
-                    this.getProducts() 
-                }
+                this.getProducts()
+                // if(e.type === 'add'){
+                //     this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                //     this.updates.push(e.product.product_name +' has been added by '+ e.user);
+                //     localStorage.setItem("responses", JSON.stringify(this.updates))
+                //     this.getProducts()
+                // }else if(e.type === 'delete'){
+                //     this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                //     this.updates.push(e.product.product_name +' has been removed by '+ e.user);
+                //     localStorage.setItem("responses", JSON.stringify(this.updates))
+                //     this.getProducts()   
+                // }else if(e.type === 'update'){
+                //     this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                //     this.updates.push(e.product.product_name +' has been updated by '+ e.user);
+                //     localStorage.setItem("responses", JSON.stringify(this.updates))
+                //     this.getProducts() 
+                // }else if(e.type === 'stockin'){
+                //     this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                //     this.updates.push(e.user +' added '+ e.product.quantity +' pcs of '+ e.product.product_name);
+                //     localStorage.setItem("responses", JSON.stringify(this.updates))
+                //     this.getProducts() 
+                // }
                 
             })
         }

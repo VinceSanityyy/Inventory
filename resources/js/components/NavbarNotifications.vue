@@ -22,13 +22,13 @@
         </div>
       </li>
       <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" >
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
           <span v-if="updates.length === 0" class="badge badge-warning navbar-badge"></span>
           <span v-else class="badge badge-warning navbar-badge">{{updates.length}}</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <div  class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">{{updates.length}} Notifications</span>
             <li v-for="update in updates" :key="update.id">
                 
@@ -54,27 +54,38 @@
 
 <script>
     export default {
-        name: "NavbarNotifications",
         data(){
             return{
                 updates:[]
             }
         },
-        methods:{
-            getUpdates(){
-               this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
-               this.$forceUpdate()
-            },
+        methods:{    
             clearNotif(){
-                localStorage.clear()
-                this.getUpdates()
+              localStorage.setItem("responses","")
+              this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
             }
         },
         created(){
-            this.getUpdates()
-            window.Echo.channel('Products').listen('ProductsEvent',(e)=>{
-                this.$forceUpdate()
-                this.getUpdates()
+            this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+             window.Echo.channel('Products').listen('ProductsEvent',(e)=>{
+                console.log(e)
+                if(e.type === 'add'){
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push(e.product.product_name +' has been added by '+ e.user);
+                    localStorage.setItem("responses", JSON.stringify(this.updates))
+                }else if(e.type === 'delete'){
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push(e.product.product_name +' has been removed by '+ e.user);
+                    localStorage.setItem("responses", JSON.stringify(this.updates)) 
+                }else if(e.type === 'update'){
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push(e.product.product_name +' has been updated by '+ e.user);
+                    localStorage.setItem("responses", JSON.stringify(this.updates))  
+                }else if(e.type === 'stockin'){
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push(e.user +' added new stocks for ' + e.product.product_name);
+                    localStorage.setItem("responses", JSON.stringify(this.updates))
+                }
             })
         },
         mounted() {
