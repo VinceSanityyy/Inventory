@@ -299,7 +299,7 @@ import NavbarNotificationsVue from './NavbarNotifications.vue'
         created(){
             this.getProducts()
             this.getSuppliers()
-            this.updates = JSON.parse(localStorage.setItem("responses","") || "null") || [];
+            // this.updates = JSON.parse(localStorage.setItem("responses","") || "null") || [];
             this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
             // console.log(localStorage.getItem("updates", JSON.parse(this.updates)))
             window.Echo.channel('Products').listen('ProductsEvent',(e)=>{
