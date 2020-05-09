@@ -25,8 +25,8 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span v-if="updates.length == 0" class="badge badge-warning navbar-badge"></span>
-          <span class="badge badge-warning navbar-badge">{{updates.length}}</span>
+          <span v-if="updates.length === 0" class="badge badge-warning navbar-badge"></span>
+          <span v-else class="badge badge-warning navbar-badge">{{updates.length}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">{{updates.length}} Notifications</span>
