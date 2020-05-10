@@ -64,7 +64,7 @@ class ProductController extends Controller
             $product->supplier_id = $request->supplier;
             $product->save();
 
-            broadcast(new ProductsEvent(\Auth::user()->name, 'add', $product));
+            broadcast(new ProductsEvent(\Auth::user()->name, 'add', $product))->toOthers();
         }
     }
 
@@ -106,7 +106,7 @@ class ProductController extends Controller
         $product->category = $request->category;
         $product->supplier_id = $request->supplier;
         $product->save();
-        broadcast(new ProductsEvent(\Auth::user()->name, 'update', $product));
+        broadcast(new ProductsEvent(\Auth::user()->name, 'update', $product))->toOthers();
     }
 
     /**
@@ -119,7 +119,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($request->product_id);
         // broadcast(new ProductsEvent(\Auth::user()->name, $product));
-        broadcast(new ProductsEvent(\Auth::user()->name, 'delete', $product));
+        broadcast(new ProductsEvent(\Auth::user()->name, 'delete', $product))->toOthers();
         $product->delete();
 
     }
@@ -138,6 +138,6 @@ class ProductController extends Controller
         $product->increment('quantity',$request->stocks);
         // dd($request->all());
         $product->save();
-        broadcast(new ProductsEvent(\Auth::user()->name, 'stockin', $product));
+        broadcast(new ProductsEvent(\Auth::user()->name, 'stockin', $product))->toOthers();
     }
 }

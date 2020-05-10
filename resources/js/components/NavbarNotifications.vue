@@ -59,6 +59,9 @@
                 updates:[]
             }
         },
+        props:{
+          user: String
+        },
         methods:{    
             clearNotif(){
               localStorage.setItem("responses","")
@@ -73,18 +76,22 @@
                     this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
                     this.updates.push(e.product.product_name +' has been added by '+ e.user);
                     localStorage.setItem("responses", JSON.stringify(this.updates))
+                    toastr.info(e.product.product_name +' has been added by '+ e.user)
                 }else if(e.type === 'delete'){
                     this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
                     this.updates.push(e.product.product_name +' has been removed by '+ e.user);
                     localStorage.setItem("responses", JSON.stringify(this.updates)) 
+                    toastr.info(e.product.product_name +' has been removed by '+ e.user)
                 }else if(e.type === 'update'){
                     this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
                     this.updates.push(e.product.product_name +' has been updated by '+ e.user);
-                    localStorage.setItem("responses", JSON.stringify(this.updates))  
+                    localStorage.setItem("responses", JSON.stringify(this.updates)) 
+                    toastr.info(e.product.product_name +' has been updated by '+ e.user)
                 }else if(e.type === 'stockin'){
                     this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
                     this.updates.push(e.user +' added new stocks for ' + e.product.product_name);
                     localStorage.setItem("responses", JSON.stringify(this.updates))
+                    toastr.info(e.user +' added new stocks for ' + e.product.product_name)
                 }
             })
         },

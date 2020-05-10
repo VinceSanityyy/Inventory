@@ -14,7 +14,7 @@
 <div id="app" class="wrapper">
 
   <!-- Navbar -->
-  <navbar-notifications></navbar-notifications>
+  <navbar-notifications user={{Auth::user()->name}}></navbar-notifications>
   
   <!-- /.navbar -->
 
