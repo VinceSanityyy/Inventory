@@ -31,7 +31,6 @@ class ProductsEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        // dd($this->product);
         return [
             // 'product' => $this->product->with('supplier')->orderBy('product_id', 'desc')->first(),
             'product' => $this->product,

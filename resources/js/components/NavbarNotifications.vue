@@ -94,6 +94,26 @@
                     toastr.info(e.user +' added new stocks for ' + e.product.product_name)
                 }
             })
+
+            window.Echo.channel('Suppliers').listen('SupplierEvent',(e)=>{
+                console.log(e)
+                if(e.type === 'add'){
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push('Supplier '+ e.supplier.supplier_name +' has been added by '+ e.user);
+                    localStorage.setItem("responses", JSON.stringify(this.updates))
+                    toastr.info('Supplier '+ e.supplier.supplier_name +' has been added by '+ e.user)
+                }else if(e.type === 'delete'){
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push('Supplier '+ e.supplier.supplier_name +' has been removed by '+ e.user);
+                    localStorage.setItem("responses", JSON.stringify(this.updates)) 
+                    toastr.info('Supplier '+ e.supplier.supplier_name +' has been removed by '+ e.user)
+                }else if(e.type === 'update'){
+                    this.updates = JSON.parse(localStorage.getItem("responses") || "null") || [];
+                    this.updates.push('Supplier '+ e.supplier.supplier_name +' has been updated by '+ e.user);
+                    localStorage.setItem("responses", JSON.stringify(this.updates)) 
+                    toastr.info('Supplier '+ e.supplier.supplier_name +' has been updated by '+ e.user)
+                }
+            })
         },
         mounted() {
             console.log('Component mounted.')

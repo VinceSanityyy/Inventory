@@ -18,3 +18,6 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 Broadcast::channel('Products',function(){
     return true;
 });
+Broadcast::channel('Suppliers',function(){
+    return true;
+});

@@ -185,10 +185,7 @@ import 'vue-select/dist/vue-select.css'
                     this.clearValues()
                     $('#exampleModal').modal('hide')
                     toastr.success('Product Added!')
-                    this.getProducts()
-        
-                   
-                    
+                    this.getProducts() 
                 }).catch((res)=>{
                     toastr.error(res.message+' Check your Inputs')
                 })

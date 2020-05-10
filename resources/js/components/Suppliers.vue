@@ -204,6 +204,11 @@
         },
         created(){
             this.getSuppliers()
+             window.Echo.channel('Suppliers').listen('SupplierEvent',(e)=>{
+                // console.log(e)
+                // this.suppliers.push(e.supplier)
+                this.getSuppliers() 
+            })
         },
         mounted() {
             console.log('Component mounted.')

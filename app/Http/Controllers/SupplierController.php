@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Supplier;
 use Illuminate\Http\Request;
 use App\Product;
-
+use App\Events\SupplierEvent;
 class SupplierController extends Controller
 {
     /**
@@ -59,6 +59,8 @@ class SupplierController extends Controller
             $supplier->supplier_phone = $request->supplier_phone;
             $supplier->supplier_email = $request->supplier_email;
             $supplier->save();
+
+            broadcast(new SupplierEvent(\Auth::user()->name, 'add', $supplier))->toOthers();
         }
 
     }
@@ -101,6 +103,8 @@ class SupplierController extends Controller
         $supplier->supplier_address = $request->supplier_address;
         // dd($request->all());
         $supplier->save();
+
+        broadcast(new SupplierEvent(\Auth::user()->name, 'update', $supplier))->toOthers();
     }
 
     /**
@@ -112,7 +116,9 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier, Request $request)
     {
         $supplier = Supplier::findOrFail($request->supplier_id);
+        broadcast(new SupplierEvent(\Auth::user()->name, 'delete', $supplier))->toOthers();
         $supplier->delete();
+
     }
 
     public function getCombo(){
