@@ -42,4 +42,8 @@ Route::get('/getProductPercentageBySupplier','SupplierController@getProductPerce
 //stockHistory
 Route::get('/getHistory','StockHistoryController@getHistory');
 //regEx for route
+
+// TestSMS
+Route::get('/sendSMS','ProductController@sendSMS');
+
 Route::get('{path}','HomeController@index')->where( 'path', '([A-z]+)?' );

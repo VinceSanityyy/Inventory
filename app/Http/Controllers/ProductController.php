@@ -140,4 +140,33 @@ class ProductController extends Controller
         $product->save();
         broadcast(new ProductsEvent(\Auth::user()->name, 'stockin', $product))->toOthers();
     }
+    
+
+    public function sendSMS(Request $request){
+        // $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImNkZDdlMTI3MjUzMDcxNDQyOWExZGJlYWJhOGMwOTk4Njk2Y2Q5NzU1M2I1ZWRiMTAyOTg4ZTlkZjQzODNjNTU5MWZiYmViZjFkY2IwYThhIn0.eyJhdWQiOiIxIiwianRpIjoiY2RkN2UxMjcyNTMwNzE0NDI5YTFkYmVhYmE4YzA5OTg2OTZjZDk3NTUzYjVlZGIxMDI5ODhlOWRmNDM4M2M1NTkxZmJiZWJmMWRjYjBhOGEiLCJpYXQiOjE1ODkxMDkyMzgsIm5iZiI6MTU4OTEwOTIzOCwiZXhwIjoxNjIwNjQ1MjM4LCJzdWIiOiIxMjg5OCIsInNjb3BlcyI6W119.gPc1ogk8H5Bs62FStK0MVsqRTT_oKoybTjLG2S5UwwygwzE4dz91TykwLuMum4uWK0nScyzvD-I7Rp1_HpMFWK-fmx35dUNTC3K_TLzSjwFDxm_4hB7eTzRrDAmSv4KyQX9qymSsA2JjHrZcNDvoZ0AZECwiW9qb3NbAFAt9V6_pCYccn8QD_jZoxosG4XKGVSZbz22vSCE6VY9UK9boRXUS1lFqrib57IIGoHVEkhfwQfQeE7vE97-xSsynECZO27Ces2WqwfcMtsvRNhnc4YWxpb1GgcVnuuQ75Py79G4Ds-SsDG3OiZIRiHlpnHXXPHzddLUs68BjTOu-4fElymWtDMFkuV2QakgRhLKWEgzvITVBHQLo4chsp3Pwr2aeWXHxS1qg5PCzFnF116zVsiF3mGvABYiZKO9onKRkB4iqrSXW7SC1TQI9SAljTQa7QPlSvelhdhJXMGFsl0dp8peG_CEguuO0Rvoa08NQnXBZ9xA54Vxv_wGUlhgj3SmJzv6XvOJd2TwhjDV94ASccAQUDuxBd4fIPeLvk0Objlm-jx1-BfwNt3KP6J-ABODICNe2LDSV1S-88E-Xi4cTUFdV6Cx0J8EBgNInAWQQsxIXvrkC7HE5M9za-mbLs50Cm2sm1zJ3q-QHVkOr13bAwOSf5aIeSCyT7xAkVq0CV38';
+        // $textko = new \Textko\Sms($token);
+        // $sms = $textko->send('09270277397', 'My awesome text message');
+
+        $senderAddress = '5692';
+        // $access_token = '9qpvt8Q0zngP6CwbaZQ4v0BmaLX68INjg6j_h4nqpEU';
+        $access_token = 'U9fhRf3HeSEm2kv4VxfOqct_12UQQhhQoAszUsk8Ad0';
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, "https://devapi.globelabs.com.ph/smsmessaging/v1/outbound/$senderAddress/requests?access_token=$access_token");
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        // curl_setopt($ch, CURLOPT_POST,1 );
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        //     'Content-Type: application/json',
+        // ));
+
+        // $postData = [
+        //     'address' => '+639308146127',
+        //     'message' => 'Hi babe I love you <3. Mao ning tong sa need e register',
+        // ];
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+
+        // $result=curl_exec ($ch);
+        // dd($result);
+
+      
+    }
 }
