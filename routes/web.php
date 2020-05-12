@@ -11,6 +11,7 @@ use App\Events\InventoryEvent;
 |
 */
 
+
 Route::get('/', function () {
     // broadcast(new InventoryEvent('some data'));
     event(new InventoryEvent('somedata'));
@@ -18,10 +19,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
 
-
-
+Route::get('/home', 'HomeController@index');
 //products
 Route::get('/getProducts','ProductController@index');
 Route::post('/addProduct','ProductController@store');
@@ -38,26 +37,20 @@ Route::get('/getSuppliersCombo','SupplierController@getCombo');
 
 //reports
 Route::get('/getProductPercentageBySupplier','SupplierController@getProductPercentageBySupplier');
-
 //stockHistory
 Route::get('/getHistory','StockHistoryController@getHistory');
 //regEx for route
 
 // TestSMS
 Route::get('/sendSMS','ProductController@sendSMS');
-
-Route::get('/test', function()
-{
-	$beautymail = app()->make(Snowfire\Beautymail\Beautymail::class);
-    $beautymail->send('emails.welcome', [], function($message)
-    {
-        $message
-			->from('bar@example.com')
-			->to('vbustillo97@gmail.com', 'John Smith')
-			->subject('Welcome!');
-    });
-
-});
+  
+Route::get('/verifyUser','Auth\VerificationController@verify');
+//Resend Code
+Route::post('/resend','Auth\VerificationController@resend');
+//Verfiy Code
+Route::post('/verifyUser','Auth\VerificationController@verifyUser');
 
 Route::get('{path}','HomeController@index')->where( 'path', '([A-z]+)?' );
 
+
+  

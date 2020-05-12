@@ -23,6 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // dd(\Auth::user()->status);
+        if(\Auth::user()->status == 0){
+            return redirect('/verifyUser');
+        }
         return view('home');
     }
 }
