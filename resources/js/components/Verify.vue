@@ -19,10 +19,10 @@
                         
                     </div>
 
-                    Before proceeding, please enter your verification code that was sent to your email or mobile.
+                    Before proceeding, please enter your verification code that was sent to your <strong>email</strong> or <strong>mobile</strong>.
 
                     If you did not receive the code,
-		            <button @click="resend" type="submit" class="btn btn-link p-0 m-0 align-baseline">click here to request another</button>.
+		            <button @click="resend" type="submit" class="btn btn-link p-0 m-0 align-baseline">click here to request </button>  another code through <strong>email</strong>.
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
                     code:this.code
                 }).then((res)=>{
                     // this.$router.push('/home')
-                    // window.location.href = '/home';
+                    window.location.href = '/home';
                     toastr.success('Account Verified!')
                 }).catch((err)=>{
                     toastr.error('Invalid Code')
