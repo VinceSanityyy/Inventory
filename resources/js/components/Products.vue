@@ -102,6 +102,10 @@
                         <label for="exampleInputEmail1">Category</label>
                         <v-select :options="categories"  :required="!category" v-model="category"></v-select>
                     </div>
+                     <div class="form-group">
+                        <label for="">Picture</label>
+                        <input @change="onFileChange" type="file" id="image" name="image" required class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -161,9 +165,24 @@ import 'vue-select/dist/vue-select.css'
                 errorInputs:[],
                 stocks:'',
                 product_id:'',
+                image:''
             }
         },
         methods:{
+             onFileChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            },
+             createImage(file) {
+                let reader = new FileReader();
+                let vm = this;
+                reader.onload = (e) => {
+                    vm.image = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
             getSuppliers(){
                 axios.get('/getSuppliersCombo')
                     .then((res)=>{
@@ -180,7 +199,8 @@ import 'vue-select/dist/vue-select.css'
                     supplier: this.supplier.id,
                     category: this.category,
                     barcode: this.barcode,
-                    price: this.price
+                    price: this.price,
+                    image: this.image
                 }).then((res)=>{
                     this.clearValues()
                     $('#exampleModal').modal('hide')
