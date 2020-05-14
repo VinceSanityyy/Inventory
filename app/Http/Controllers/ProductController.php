@@ -40,19 +40,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = new Product;
-
-        // $validator = Validator::make($request->all(), [
-        //     'image' => 'required|image64:jpeg,jpg,png'
-        // ]);
-        // if ($validator->fails()) {
-        //     return response()->json(['errors'=>$validator->errors()]);
-        // } else {
-        //     $imageData = $request->get('image');
-        //     $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-        //     Image::make($request->get('image'))->save(public_path('images/').$fileName);
-        //     return response()->json(['error'=>false]);
-        // }
-
         $validator = \Validator::make($request->all(), [
             'product_name' => 'required',
             'barcode' => 'required|unique:products',
@@ -63,14 +50,12 @@ class ProductController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $errors = json_decode($validator->errors());
             return response()->json([
                 'success' => false,
-                'message' => $errors
+                'message' => $validator->errors()
             ],422);
 
         } else {
-            // dd($request->image);
             $product->barcode = $request->barcode;
             $product->product_name = $request->product_name;
             $product->price = $request->price;
@@ -78,7 +63,8 @@ class ProductController extends Controller
             $product->category = $request->category;
             $product->supplier_id = $request->supplier;
             $imageData = $request->image;
-            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+            // $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+            $fileName = time().'.'. explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';'))) [1])[1];
             $product->image = \Image::make($request->image)->save(public_path('img/').$fileName);
             $product->save();
 
