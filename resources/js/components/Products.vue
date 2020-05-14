@@ -166,11 +166,13 @@ import 'vue-select/dist/vue-select.css'
                 stocks:'',
                 product_id:'',
                 image:'',
+                imageName: '',
             }
         },
         methods:{
             onFileChange(e) {
                 let file = e.target.files[0];
+                this.imageName = file.name
                 console.log(file);
                 var reader = new FileReader();
                 reader.onloadend = (file)=>{
@@ -196,6 +198,7 @@ import 'vue-select/dist/vue-select.css'
                     barcode: this.barcode,
                     price: this.price,
                     image: this.image,
+                    imageName: this.imageName
                 }).then((res)=>{
                     this.clearValues()
                     $('#exampleModal').modal('hide')
