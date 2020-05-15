@@ -63,10 +63,10 @@ class ProductController extends Controller
             $product->category = $request->category;
             $product->supplier_id = $request->supplier;
             $imageData = $request->image;
-            // $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
             $fileName = time().'.'. explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';'))) [1])[1];
-            $product->image = \Image::make($request->image)->save(public_path('img/').$fileName);
-            $product->save();
+            \Image::make($request->image)->save(public_path('img/').$fileName);
+            $product->image = $fileName;
+            $product->save();;
 
             broadcast(new ProductsEvent(\Auth::user()->name, 'add', $product))->toOthers();
         }

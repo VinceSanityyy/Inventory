@@ -166,6 +166,7 @@ import 'vue-select/dist/vue-select.css'
                 stocks:'',
                 product_id:'',
                 image:'',
+
             }
         },
         methods:{
