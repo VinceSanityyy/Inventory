@@ -26,7 +26,7 @@
                         <table id="myTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Product ID</th>
+                                    <th>Preview</th>
                                     <th>Barcode</th>
                                     <th>Product Name</th>
                                     <th>Price</th>
@@ -39,7 +39,12 @@
                             </thead>
                             <tbody>
                                 <tr v-for="product in products" :key="product.product_id">
-                                    <td>{{product.product_id}}</td>
+                                    <td>
+                                        <img :src="'img/'+ product.image" 
+                                        class="img-responsive" 
+                                        style="display:block; height: auto;"
+                                        alt="Preview">
+                                    </td>
                                     <td>{{product.barcode}}</td>
                                     <td>{{product.product_name}}</td>
                                     <td>{{product.price}}</td>
@@ -104,7 +109,7 @@
                     </div>
                      <div class="form-group">
                         <label for="">Picture</label>
-                        <input @change="onFileChange" type="file" id="image" name="image" required class="form-control">
+                        <input @change="onFileChange" type="file" id="image" name="image"  class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -275,6 +280,7 @@ import 'vue-select/dist/vue-select.css'
                 this.category = product.category
                 this.price = product.price
                 this.barcode = product.barcode
+                this.image = product.image
                 // this.supplier = product.supplier_id
                 $('#exampleModal').modal('show')
             },
@@ -284,7 +290,8 @@ import 'vue-select/dist/vue-select.css'
                     supplier: this.supplier.id,
                     category: this.category,
                     barcode: this.barcode,
-                    price: this.price
+                    price: this.price,
+                    image: this.image
                 })
                     .then((res)=>{
                         this.clearValues()

@@ -109,6 +109,23 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->category = $request->category;
         $product->supplier_id = $request->supplier;
+
+        $currentImage = $product->image;
+
+         if ($request->image != $currentImage){
+             $name = time().'.'. explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';'))) [1])[1];
+             \Image::make($request->image)->save(public_path('img/').$name);
+
+             $image = public_path('img/').$currentImage;
+             if(file_exists($image)){
+                @unlink($image);
+             }
+         }else{
+             $name = $currentImage;
+         }
+        
+        //  dd($currentImage);
+        $product->image = $name;
         $product->save();
         broadcast(new ProductsEvent(\Auth::user()->name, 'update', $product))->toOthers();
     }
