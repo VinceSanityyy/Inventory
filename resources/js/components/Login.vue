@@ -1,16 +1,16 @@
 <template>
   <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <a href="../../index2.html"><b>Hello</b> Nigga</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="../../index3.html" method="post">
+      <form @submit.prevent="login" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email">
+          <input type="email" class="form-control" placeholder="Email" v-model="email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password" v-model="password"> 
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -42,7 +42,7 @@
         </div>
       </form>
 
-      <div class="social-auth-links text-center mb-3">
+      <!-- <div class="social-auth-links text-center mb-3">
         <p>- OR -</p>
         <a href="#" class="btn btn-block btn-primary">
           <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
@@ -50,7 +50,7 @@
         <a href="#" class="btn btn-block btn-danger">
           <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
         </a>
-      </div>
+      </div> -->
       <!-- /.social-auth-links -->
 
       <p class="mb-1">
@@ -69,7 +69,38 @@
 
 <script>
 export default {
-
+    data(){
+        return{
+            email:'',
+            password:''
+        }
+    },
+    methods:{
+        login(){
+            let loader = this.$loading.show({
+                container: this.fullPage ? null : this.$refs.formContainer,
+                onCancel: this.onCancel,
+                color: '#c91010',
+                loader: 'bars',
+                width: 80,
+                height: 100,
+            })
+            axios.post('/login',{
+                email: this.email,
+                password: this.password
+            }).then((res)=>{
+                console.log(res)
+                loader.hide();
+                window.location.href = '/home';
+            }).catch((err)=>{
+                loader.hide();
+                toastr.error('Records not found')
+            })
+        }
+    },
+    created(){
+        console.log('Created')
+    }
 }
 </script>
 
