@@ -22,6 +22,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('navbar-notifications', require('./components/NavbarNotifications.vue').default);
 Vue.component('verify', require('./components/Verify.vue').default);
 Vue.component('login',require('./components/Login.vue').default);
+Vue.component('register',require('./components/Register.vue').default);
 
 const routes = [
     { path: '/products', component: require('./components/Products.vue').default },

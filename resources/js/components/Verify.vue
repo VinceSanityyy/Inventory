@@ -2,7 +2,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Verify Your Account</div>
+                <div class="card-header">Verify Your Account
+                    <a href="#" class="float-right" @click="logout">Logout</a>
+                </div>
 
                 <div class="card-body">
                     <div class="form-group row">
@@ -33,7 +35,8 @@
     export default {
         data(){
             return{
-                code:''
+                code:'',
+                csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             }
         },
         methods:{
@@ -65,6 +68,24 @@
                     toastr.success('Account Verified!')
                 }).catch((err)=>{
                     toastr.error('Invalid Code')
+                })
+            },
+            logout(){
+                let loader = this.$loading.show({
+                            container: this.fullPage ? null : this.$refs.formContainer,
+                            onCancel: this.onCancel,
+                            color: '#c91010',
+                            loader: 'bars',
+                            width: 80,
+                            height: 100,
+                })
+                axios.post('logout').then((res)=>{
+                    toastr.success('Bye nigga')
+                    loader.hide();
+                    window.location.href = '/login'
+                }).catch((err)=>{
+                    loader.hide();
+                    toastr.error(err)
                 })
             }
         },
