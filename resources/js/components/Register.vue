@@ -1,7 +1,7 @@
 <template>
   <div class="register-box">
   <div class="register-logo">
-    <a href="/"><b>Hello</b>Nigga</a>
+    <a href="/"><b>Hello</b></a>
   </div>
 
   <div class="card">
